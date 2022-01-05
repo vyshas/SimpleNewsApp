@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext {
-        lifecycle_version = "2.4.0"
+        lifecycle_version = "2.2.0"
         compose_version = '1.0.5'
         dagger_version = '2.38.1'
         moshi_version = '2.9.0'
@@ -12,12 +12,14 @@ buildscript {
         coroutines_version = "1.5.2"
         okhttp_version = "4.9.1"
         hilt_version = '2.39.1'
-        kotlin_version = '1.5.30'
+        kotlin_version = '1.5.31'
     }
+
     repositories {
         google()
         mavenCentral()
     }
+
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.4"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
