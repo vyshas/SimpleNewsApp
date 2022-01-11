@@ -3,6 +3,9 @@ package com.vyshas.newsapp.common.di.modules
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.vyshas.newsapp.BuildConfig
+import com.vyshas.newsapp.common.AppConstants
+import com.vyshas.newsapp.common.data.ApiResponseCallAdapterFactory
+import com.vyshas.newsapp.common.data.NewsApiService.Companion.BASE_API_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,6 +37,9 @@ object NetworkModule {
     ): OkHttpClient {
         return OkHttpClient
             .Builder()
+            .addInterceptor { chain ->
+                chain.proceed(chain.request().newBuilder().header("X-Api-Key", AppConstants.API.API_KEY).build())
+            }
             .addInterceptor(httpLoggingInterceptor)
             .build()
     }
@@ -46,12 +52,13 @@ object NetworkModule {
         return Retrofit
             .Builder()
             .client(okHttpClient)
-            .baseUrl("https://newsapi.org/v2/")
+            .baseUrl(BASE_API_URL)
             .addConverterFactory(
                 MoshiConverterFactory.create(
                     Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
                 )
             )
+            .addCallAdapterFactory(ApiResponseCallAdapterFactory())
             .build()
     }
 }
