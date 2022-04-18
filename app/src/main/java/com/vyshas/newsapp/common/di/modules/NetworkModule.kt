@@ -5,6 +5,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.vyshas.newsapp.BuildConfig
 import com.vyshas.newsapp.common.AppConstants
 import com.vyshas.newsapp.common.data.ApiResponseCallAdapterFactory
+import com.vyshas.newsapp.common.data.NewsApiService
 import com.vyshas.newsapp.common.data.NewsApiService.Companion.BASE_API_URL
 import dagger.Module
 import dagger.Provides
@@ -33,15 +34,15 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttp(
-        httpLoggingInterceptor: HttpLoggingInterceptor,
+        httpLoggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
         return OkHttpClient
             .Builder()
             .addInterceptor { chain ->
                 chain.proceed(chain.request().newBuilder().header("X-Api-Key", AppConstants.API.API_KEY).build())
-            }
-            .addInterceptor(httpLoggingInterceptor)
-            .build()
+            }.addInterceptor(
+                httpLoggingInterceptor
+            ).build()
     }
 
     @Singleton
@@ -57,8 +58,13 @@ object NetworkModule {
                 MoshiConverterFactory.create(
                     Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
                 )
-            )
-            .addCallAdapterFactory(ApiResponseCallAdapterFactory())
+            ).addCallAdapterFactory(ApiResponseCallAdapterFactory())
             .build()
     }
+
+    @Singleton
+    @Provides
+    fun provideApiService(
+        retrofit: Retrofit
+    ): NewsApiService = retrofit.create(NewsApiService::class.java)
 }

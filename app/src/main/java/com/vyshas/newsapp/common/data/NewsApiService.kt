@@ -9,7 +9,7 @@ interface NewsApiService {
     @GET("top-headlines/sources")
     suspend fun getTopHeadlines(
         @Query("pagesize") pageSize: Int?,
-        @Query("page") page: Int?
+        @Query("page") page: Int? = null
     ): ApiResponse<TopHeadlines>
 
 

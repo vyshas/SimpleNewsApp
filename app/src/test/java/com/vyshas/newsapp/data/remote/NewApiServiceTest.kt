@@ -3,6 +3,7 @@ package com.vyshas.newsapp.data.remote
 import com.vyshas.newsapp.common.data.ApiResponse
 import com.vyshas.newsapp.common.data.NewsApiService
 import com.vyshas.newsapp.data.MainCoroutinesRule
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
@@ -16,6 +17,7 @@ class NewApiServiceTest : ApiAbstract<NewsApiService>() {
 
     private lateinit var apiService: NewsApiService
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @get:Rule
     var coroutineRule = MainCoroutinesRule()
 
@@ -35,9 +37,8 @@ class NewApiServiceTest : ApiAbstract<NewsApiService>() {
         enqueueResponse("/topheadlines.json")
 
         // Invoke
-        val response = apiService.getTopHeadlines( 10, 1)
+        val response = apiService.getTopHeadlines(10, 1)
         val responseBody = requireNotNull((response as ApiResponse.ApiSuccessResponse).data)
-
         mockWebServer.takeRequest()
 
         // Then
