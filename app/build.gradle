@@ -11,7 +11,7 @@ android {
     defaultConfig {
         applicationId "com.vyshas.newsapp"
         minSdk 28
-        targetSdk 31
+        targetSdk 32
         versionCode 1
         versionName "1.0"
 
@@ -47,6 +47,7 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    namespace 'com.vyshas.newsapp'
 }
 
 
