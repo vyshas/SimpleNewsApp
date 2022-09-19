@@ -10,7 +10,7 @@ sealed class ApiResponse<out T> {
     /**
      * API Success response class from retrofit.
      *
-     * [data] is optional. (There are responses without data)
+     * [data] is optional.
      */
     data class ApiSuccessResponse<T>(val response: Response<T>) : ApiResponse<T>() {
         val data: T? = response.body()
