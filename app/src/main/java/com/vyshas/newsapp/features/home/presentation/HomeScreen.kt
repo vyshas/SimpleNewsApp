@@ -152,3 +152,16 @@ fun SimpleTopHeadlinesPreview() {
         }
     }
 }
+
+@Preview("Simple TopHeadlines List")
+@Preview("Simple TopHeadlines List(dark)", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun SimpleTopHeadlinesListPreview() {
+    NewsAppTheme() {
+        Surface {
+            HomeListScreen(
+                topHeadlinesList = previewTopHeadlinesEntity
+            )
+        }
+    }
+}
