@@ -158,10 +158,8 @@ fun SimpleTopHeadlinesPreview() {
 @Composable
 fun SimpleTopHeadlinesListPreview() {
     NewsAppTheme() {
-        Surface {
-            HomeListScreen(
-                topHeadlinesList = previewTopHeadlinesEntity
-            )
-        }
+        HomeListScreen(
+            topHeadlinesList = previewTopHeadlinesEntity
+        )
     }
 }
