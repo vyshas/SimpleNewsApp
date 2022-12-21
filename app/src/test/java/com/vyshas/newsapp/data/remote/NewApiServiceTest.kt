@@ -32,16 +32,16 @@ class NewApiServiceTest : ApiAbstract<NewsApiService>() {
 
     @Throws(IOException::class)
     @Test
-    fun `test load top headlines returns list of news with first one being general`() = runBlocking {
+    fun `test load top entertain headlines returns list of entertainment news`() = runBlocking {
         // Given
-        enqueueResponse("/topheadlines.json")
+        enqueueResponse("/topentertainmentnews.json")
 
         // Invoke
-        val response = apiService.getTopHeadlines(10, 1)
+        val response = apiService.getTopEntertainmentHeadlines(10, 1, category = "entertainment")
         val responseBody = requireNotNull((response as ApiResponse.ApiSuccessResponse).data)
         mockWebServer.takeRequest()
 
         // Then
-        assertThat(responseBody.sources[0].category, `is`("general"))
+        assertThat(responseBody.totalResults, `is`(70))
     }
 }

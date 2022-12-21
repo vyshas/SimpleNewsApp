@@ -8,7 +8,7 @@ import com.vyshas.newsapp.data.remote.ApiUtil.successCall
 import com.vyshas.newsapp.features.home.data.mapper.TopHeadlinesEntityMapper
 import com.vyshas.newsapp.features.home.data.repository.TopHeadlinesRepositoryImpl
 import com.vyshas.newsapp.features.home.data.repository.remote.TopHeadlinesRemoteDataSource
-import com.vyshas.newsapp.features.home.domain.entity.TopHeadlinesEntity
+import com.vyshas.newsapp.features.home.domain.entity.TopEntertainmentHeadlinesEntity
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -60,27 +60,27 @@ class ImagineRepositoryTest {
             topHeadlinesEntityMapper = topHeadlinesEntityMapper,
             topHeadlinesRemoteDataSource = topHeadlinesRemoteDataSource
         )
-        val givenTopHeadlinesResponse = TopHeadlinesMockTestUtil.createTopHeadlinesResponse(3)
-        val givenTopHeadlinesEntityList = TopHeadlinesMockTestUtil.createTopHeadlinesEntity(3)
-        val apiCall = successCall(givenTopHeadlinesResponse)
+        val givenTopEntertainmentNewsResponse = TopHeadlinesMockTestUtil.createTopEntertainmentNewsResponse(3)
+        val givenTopHeadlinesEntityList = TopHeadlinesMockTestUtil.createTopEntertainmentNewsEntity(3)
+        val apiCall = successCall(givenTopEntertainmentNewsResponse)
 
         // When
-        coEvery { topHeadlinesRemoteDataSource.getTopHeadlines(any()) }.returns(apiCall)
+        coEvery { topHeadlinesRemoteDataSource.getTopEntertainmentHeadlines(any()) }.returns(apiCall)
         // When
         coEvery { topHeadlinesEntityMapper.mapToEntity(any()) }.returns(givenTopHeadlinesEntityList)
 
         // Invoke
-        val topHeadlinesEntityDateState: DataState<List<TopHeadlinesEntity>> = repository.getTopHeadlines(1)
+        val topHeadlinesEntityDateState: DataState<List<TopEntertainmentHeadlinesEntity>> = repository.getTopEntertainmentHeadlines(1)
 
         // Then
         MatcherAssert.assertThat(topHeadlinesEntityDateState, CoreMatchers.notNullValue())
         MatcherAssert.assertThat(topHeadlinesEntityDateState, CoreMatchers.instanceOf(DataState.Success::class.java))
 
-        val topHeadlinesEntityList: List<TopHeadlinesEntity> = (topHeadlinesEntityDateState as DataState.Success).data
+        val topHeadlinesEntityList: List<TopEntertainmentHeadlinesEntity> = (topHeadlinesEntityDateState as DataState.Success).data
         MatcherAssert.assertThat(topHeadlinesEntityList, CoreMatchers.notNullValue())
         MatcherAssert.assertThat(topHeadlinesEntityList.size, CoreMatchers.`is`(givenTopHeadlinesEntityList.size))
 
-        coVerify(exactly = 1) { topHeadlinesRemoteDataSource.getTopHeadlines(any()) }
+        coVerify(exactly = 1) { topHeadlinesRemoteDataSource.getTopEntertainmentHeadlines(any()) }
         confirmVerified(topHeadlinesRemoteDataSource)
     }
 }

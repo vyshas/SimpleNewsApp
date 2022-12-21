@@ -1,23 +1,25 @@
 package com.vyshas.newsapp.features.home.data.mapper
 
-import com.vyshas.newsapp.features.home.data.model.TopHeadlines
-import com.vyshas.newsapp.features.home.domain.entity.TopHeadlinesEntity
+import com.vyshas.newsapp.features.home.data.model.entertainmentnews.TopEntertainmentNews
+import com.vyshas.newsapp.features.home.domain.entity.TopEntertainmentHeadlinesEntity
 import javax.inject.Inject
 
 class TopHeadlinesEntityMapper @Inject constructor() {
 
     fun mapToEntity(
-        response: TopHeadlines?
-    ): List<TopHeadlinesEntity> {
-        return response?.sources?.map {
-            TopHeadlinesEntity(
-                category = it.category,
-                country = it.country,
+        response: TopEntertainmentNews?
+    ): List<TopEntertainmentHeadlinesEntity> {
+
+        return response?.articles?.filter { it.content != null }?.map {
+            TopEntertainmentHeadlinesEntity(
+                author = it.author ?: "",
+                content = it.content,
                 description = it.description,
-                id = it.id,
-                language = it.language,
-                name = it.name,
-                url = it.url
+                publishedAt = it.publishedAt,
+                source = it.source.name,
+                title = it.title,
+                url = it.url,
+                urlToImage = it.urlToImage
             )
         } ?: emptyList()
     }

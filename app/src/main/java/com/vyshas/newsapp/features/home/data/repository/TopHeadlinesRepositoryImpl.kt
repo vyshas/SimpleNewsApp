@@ -5,7 +5,7 @@ import com.vyshas.newsapp.common.data.DataState
 import com.vyshas.newsapp.common.data.message
 import com.vyshas.newsapp.features.home.data.mapper.TopHeadlinesEntityMapper
 import com.vyshas.newsapp.features.home.data.repository.remote.TopHeadlinesRemoteDataSource
-import com.vyshas.newsapp.features.home.domain.entity.TopHeadlinesEntity
+import com.vyshas.newsapp.features.home.domain.entity.TopEntertainmentHeadlinesEntity
 import com.vyshas.newsapp.features.home.domain.repository.TopHeadlinesRepository
 import javax.inject.Inject
 
@@ -14,11 +14,11 @@ class TopHeadlinesRepositoryImpl @Inject constructor(
     private val topHeadlinesEntityMapper: TopHeadlinesEntityMapper
 ) : TopHeadlinesRepository {
 
-    override suspend fun getTopHeadlines(
+    override suspend fun getTopEntertainmentHeadlines(
         pageSize: Int
-    ): DataState<List<TopHeadlinesEntity>> {
+    ): DataState<List<TopEntertainmentHeadlinesEntity>> {
 
-        return when (val topHeadlines = topHeadlinesRemoteDataSource.getTopHeadlines(pageSize = pageSize)) {
+        return when (val topHeadlines = topHeadlinesRemoteDataSource.getTopEntertainmentHeadlines(pageSize = pageSize)) {
             is ApiResponse.ApiSuccessResponse -> {
                 DataState.Success(topHeadlinesEntityMapper.mapToEntity(topHeadlines.data))
             }

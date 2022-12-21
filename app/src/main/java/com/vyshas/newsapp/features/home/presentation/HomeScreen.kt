@@ -20,14 +20,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.vyshas.newsapp.features.home.domain.entity.TopHeadlinesEntity
-import com.vyshas.newsapp.features.home.domain.entity.previewTopHeadlinesEntity
+import com.vyshas.newsapp.features.home.domain.entity.TopEntertainmentHeadlinesEntity
+import com.vyshas.newsapp.features.home.domain.entity.previewTopEntertainmentHeadlinesEntities
 import com.vyshas.newsapp.ui.theme.NewsAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeListScreen(
-    topHeadlinesList: List<TopHeadlinesEntity>,
+    topHeadlinesList: List<TopEntertainmentHeadlinesEntity>,
     modifier: Modifier = Modifier
 ) {
     val topAppBarState = rememberTopAppBarState()
@@ -44,7 +44,7 @@ private fun HomeListScreen(
 
 @Composable
 fun HomeListContent(
-    topHeadlinesList: List<TopHeadlinesEntity>,
+    topHeadlinesList: List<TopEntertainmentHeadlinesEntity>,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     state: LazyListState = rememberLazyListState()
@@ -62,7 +62,7 @@ fun HomeListContent(
 
 @Composable
 fun HomeNewsItemSection(
-    topHeadlinesList: List<TopHeadlinesEntity>
+    topHeadlinesList: List<TopEntertainmentHeadlinesEntity>
 ) {
     Column {
         topHeadlinesList.forEach { topHeadlinesEntity ->
@@ -82,7 +82,7 @@ fun NewsListDivider() {
 @Composable
 fun NewsCardSimple(
     modifier: Modifier = Modifier,
-    topHeadlinesEntity: TopHeadlinesEntity
+    topHeadlinesEntity: TopEntertainmentHeadlinesEntity
 ) {
     ListItem(
         headlineText = {
@@ -95,7 +95,7 @@ fun NewsCardSimple(
 }
 
 @Composable
-fun SupportingText(topHeadlinesEntity: TopHeadlinesEntity) {
+fun SupportingText(topHeadlinesEntity: TopEntertainmentHeadlinesEntity) {
     Text(
         text = topHeadlinesEntity.description,
         style = MaterialTheme.typography.bodyMedium,
@@ -105,9 +105,9 @@ fun SupportingText(topHeadlinesEntity: TopHeadlinesEntity) {
 }
 
 @Composable
-fun Title(topHeadlinesEntity: TopHeadlinesEntity) {
+fun Title(topHeadlinesEntity: TopEntertainmentHeadlinesEntity) {
     Text(
-        text = topHeadlinesEntity.name,
+        text = topHeadlinesEntity.source,
         style = MaterialTheme.typography.titleMedium,
         maxLines = 3,
         overflow = TextOverflow.Ellipsis,
@@ -148,7 +148,7 @@ private fun LoadingContent(
 fun SimpleTopHeadlinesPreview() {
     NewsAppTheme() {
         Surface {
-            NewsCardSimple(topHeadlinesEntity = previewTopHeadlinesEntity[0])
+            NewsCardSimple(topHeadlinesEntity = previewTopEntertainmentHeadlinesEntities[0])
         }
     }
 }
@@ -159,7 +159,7 @@ fun SimpleTopHeadlinesPreview() {
 fun SimpleTopHeadlinesListPreview() {
     NewsAppTheme() {
         HomeListScreen(
-            topHeadlinesList = previewTopHeadlinesEntity
+            topHeadlinesList = previewTopEntertainmentHeadlinesEntities
         )
     }
 }
