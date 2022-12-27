@@ -19,7 +19,7 @@ val previewTopEntertainmentHeadlinesEntities = listOf(
         description = "As per latest buzz, we hear that Ankit Gupta is saved from this week's nomination.",
         url = "https=//www.indiaforums.com/article/bigg-boss-16-priyanka-saves-ankit-from-nomination_192784",
         urlToImage = "https://img.indiaforums.com/article/1200x675/19/2784-bigg-boss-16-priyanka-saves-ankit-from-nomination.jpg",
-        publishedAt = "2022-12-20T13:45:35Z",
+        publishedAt = "4h ago",
         content = "Bigg Boss 16 has been keeping its audience glued to the show with its high voltage drama. The latest promo has seen MC Stan nominate Tina Datta for elimination from the show. While the two took a dig… [+623 chars]"
     ),
 

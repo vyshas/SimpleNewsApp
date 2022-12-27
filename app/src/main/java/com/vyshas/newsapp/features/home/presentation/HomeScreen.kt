@@ -1,25 +1,35 @@
 package com.vyshas.newsapp.features.home.presentation
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.InlineTextContent
+import androidx.compose.foundation.text.appendInlineContent
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.Placeholder
+import androidx.compose.ui.text.PlaceholderVerticalAlign
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.vyshas.newsapp.R
 import com.vyshas.newsapp.features.home.domain.entity.TopEntertainmentHeadlinesEntity
 import com.vyshas.newsapp.features.home.domain.entity.previewTopEntertainmentHeadlinesEntities
 import com.vyshas.newsapp.ui.theme.NewsAppTheme
@@ -52,7 +62,8 @@ fun HomeListContent(
     LazyColumn(
         modifier = modifier,
         contentPadding = contentPadding,
-        state = state
+        state = state,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         item {
             HomeNewsItemSection(topHeadlinesList = topHeadlinesList)
@@ -69,47 +80,138 @@ fun HomeNewsItemSection(
             NewsCardSimple(
                 topHeadlinesEntity = topHeadlinesEntity
             )
-            NewsListDivider()
         }
     }
 }
 
 @Composable
-fun NewsListDivider() {
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
 fun NewsCardSimple(
     modifier: Modifier = Modifier,
     topHeadlinesEntity: TopEntertainmentHeadlinesEntity
 ) {
-    ListItem(
-        headlineText = {
-            Title(topHeadlinesEntity = topHeadlinesEntity)
-        },
-        supportingText = {
-            SupportingText(topHeadlinesEntity)
+    OutlinedCard(
+        modifier = modifier.padding(8.dp)
+    ) {
+        Column(modifier.padding(8.dp)) {
+            NewsHeaderImage(
+                headerImageUrl = topHeadlinesEntity.urlToImage,
+                contentDescription = topHeadlinesEntity.description
+            )
+            Spacer(modifier = modifier.height(8.dp))
+            Column {
+                CategoriesText(R.string.categories_text, modifier)
+                TitleText(titleText = topHeadlinesEntity.title)
+            }
+            Row {
+                NewsSourceContainer(
+                    modifier = modifier,
+                    sourceText = topHeadlinesEntity.source,
+                    publishedDateText = topHeadlinesEntity.publishedAt
+                )
+            }
         }
+    }
+}
+
+@Composable
+fun NewsSourceContainer(
+    modifier: Modifier,
+    sourceText: String,
+    publishedDateText: String
+) {
+    Row {
+        SourceLabelText(modifier = modifier, sourceText)
+        Spacer(modifier = Modifier.width(12.dp))
+        PublishedDateText(publishedDateText = publishedDateText)
+    }
+}
+
+@Composable
+fun PublishedDateText(publishedDateText: String) {
+    val timeIconId = "timeIconId"
+    val text = buildAnnotatedString {
+        appendInlineContent(timeIconId, "timeIconText")
+        append(publishedDateText)
+    }
+
+    val inlineContent = mapOf(
+        Pair(
+            timeIconId,
+            InlineTextContent(
+                Placeholder(
+                    height = 14.sp,
+                    width = 14.sp,
+                    placeholderVerticalAlign = PlaceholderVerticalAlign.Center
+                )
+            ) {
+                Icon(painterResource(id = R.drawable.ic_time), "")
+            }
+        )
+    )
+
+    Text(
+        text = text,
+        inlineContent = inlineContent,
+        maxLines = 1,
+        fontWeight = FontWeight.W400,
+        fontSize = 13.sp,
+        textAlign = TextAlign.Start
     )
 }
 
 @Composable
-fun SupportingText(topHeadlinesEntity: TopEntertainmentHeadlinesEntity) {
+fun SourceLabelText(modifier: Modifier, sourceText: String) {
     Text(
-        text = topHeadlinesEntity.description,
-        style = MaterialTheme.typography.bodyMedium,
-        maxLines = 3,
-        overflow = TextOverflow.Visible,
+        modifier = modifier,
+        text = sourceText,
+        maxLines = 1,
+        fontWeight = FontWeight.W500,
+        fontSize = 13.sp,
+        textAlign = TextAlign.Start
+    )
+}
+
+
+@Composable
+fun CategoriesText(categoriesStringRes: Int, modifier: Modifier) {
+    Text(
+        text = stringResource(id = categoriesStringRes),
+        fontStyle = FontStyle.Normal,
+        fontSize = 13.sp,
+        lineHeight = 19.sp,
+        textAlign = TextAlign.Start,
+        modifier = modifier,
     )
 }
 
 @Composable
-fun Title(topHeadlinesEntity: TopEntertainmentHeadlinesEntity) {
+fun NewsHeaderImage(
+    headerImageUrl: String?,
+    contentDescription: String?
+) {
+    AsyncImage(
+        placeholder = if (LocalInspectionMode.current) {
+            painterResource(R.drawable.ic_placeholder_default)
+        } else {
+            // TODO b/228077205, show specific loading image visual
+            null
+        },
+        modifier = Modifier
+            .clip(shape = RoundedCornerShape(6.dp))
+            .fillMaxWidth()
+            .height(183.dp),
+        contentScale = ContentScale.Crop,
+        model = headerImageUrl,
+        contentDescription = contentDescription // decorative image
+    )
+}
+
+@Composable
+fun TitleText(titleText: String) {
     Text(
-        text = topHeadlinesEntity.source,
+        text = titleText,
         style = MaterialTheme.typography.titleMedium,
-        maxLines = 3,
+        maxLines = 2,
         overflow = TextOverflow.Ellipsis,
     )
 }

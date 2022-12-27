@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Newsapp2</string>
+    <string name="categories_text">Entertainment</string>
 </resources>
