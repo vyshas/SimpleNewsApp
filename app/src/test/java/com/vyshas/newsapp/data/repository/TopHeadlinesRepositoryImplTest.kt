@@ -15,6 +15,7 @@ import io.mockk.coVerify
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
@@ -26,7 +27,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class ImagineRepositoryTest {
+class TopHeadlinesRepositoryImplTest {
 
     // Subject under test
     private lateinit var repository: TopHeadlinesRepositoryImpl
@@ -69,9 +70,13 @@ class ImagineRepositoryTest {
         // When
         coEvery { topHeadlinesEntityMapper.mapToEntity(any()) }.returns(givenTopHeadlinesEntityList)
 
-        // Invoke
-        val topHeadlinesEntityDateState: DataState<List<TopEntertainmentHeadlinesEntity>> = repository.getTopEntertainmentHeadlines(1)
 
+       val apiResponseFlow = repository.getTopEntertainmentHeadlines(1)
+        // Then
+        MatcherAssert.assertThat(apiResponseFlow, CoreMatchers.notNullValue())
+
+        // Invoke
+        val topHeadlinesEntityDateState = apiResponseFlow.first()
         // Then
         MatcherAssert.assertThat(topHeadlinesEntityDateState, CoreMatchers.notNullValue())
         MatcherAssert.assertThat(topHeadlinesEntityDateState, CoreMatchers.instanceOf(DataState.Success::class.java))
