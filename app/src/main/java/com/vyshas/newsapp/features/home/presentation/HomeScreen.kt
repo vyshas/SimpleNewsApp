@@ -10,8 +10,13 @@ import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
@@ -26,6 +31,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -34,21 +41,93 @@ import com.vyshas.newsapp.features.home.domain.entity.TopEntertainmentHeadlinesE
 import com.vyshas.newsapp.features.home.domain.entity.previewTopEntertainmentHeadlinesEntities
 import com.vyshas.newsapp.ui.theme.NewsAppTheme
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
+@Composable
+fun HomeScreen(
+    homeViewModel: HomeViewModel
+) {
+    val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
+    HomeListScreen(
+        uiState = uiState,
+        onRefresh = { homeViewModel.refresh() }
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun HomeListScreen(
-    topHeadlinesList: List<TopEntertainmentHeadlinesEntity>,
-    modifier: Modifier = Modifier
+fun HomeListScreen(
+    modifier: Modifier = Modifier,
+    uiState: HomeUiState,
+    onRefresh: () -> Unit
 ) {
     val topAppBarState = rememberTopAppBarState()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
+    val isFeedLoading = uiState is HomeUiState.Loading
+    val isEmpty = uiState is HomeUiState.EmptyContent
+
+    val snackbarHostState = remember { SnackbarHostState() }
+
     Scaffold(
-        modifier = modifier
+        topBar = {
+            TopAppBar(
+                title = { Text(text = stringResource(id = R.string.home)) },
+                scrollBehavior = scrollBehavior
+            )
+        },
+        modifier = modifier,
+/*        snackbarHost = {
+            SnackbarHost(
+                modifier = modifier,
+                hostState = snackbarHostState
+            )
+        }*/
     ) { innerPadding ->
-        HomeListContent(
-            modifier = modifier,
-            contentPadding = innerPadding,
-            topHeadlinesList = topHeadlinesList
+        val contentModifier = Modifier
+            .padding(innerPadding)
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
+
+        LoadingContent(
+            empty = isEmpty,
+            emptyContent = { FullScreenLoading() },
+            loading = isFeedLoading,
+            onRefresh = { onRefresh() }
+        ) {
+            when (uiState) {
+                HomeUiState.Loading -> Unit
+                is HomeUiState.HasContent -> HomeListContent(
+                    modifier = contentModifier,
+                    contentPadding = innerPadding,
+                    topHeadlinesList = uiState.data
+                )
+                is HomeUiState.Error -> showErrorMessage(snackbarHostState, onRefresh)
+                HomeUiState.EmptyContent -> Unit
+            }
+        }
+
+    }
+}
+
+@Composable
+fun showErrorMessage(
+    snackbarHostState: SnackbarHostState,
+    onRefresh: () -> Unit
+) {
+    // Get the text to show on the message from resources
+    val errorMessageText: String = stringResource(R.string.error_generic)
+    val retryMessageText = stringResource(id = R.string.retry)
+
+
+    // Effect running in a coroutine that displays the Snackbar on the screen
+    // If there's a change to errorMessageText, retryMessageText or snackbarHostState,
+    // the previous effect will be cancelled and a new one will start with the new values
+    LaunchedEffect(errorMessageText, snackbarHostState) {
+        val snackbarResult = snackbarHostState.showSnackbar(
+            message = errorMessageText,
+            actionLabel = retryMessageText
         )
+        if (snackbarResult == SnackbarResult.ActionPerformed) {
+            onRefresh()
+        }
     }
 }
 
@@ -86,16 +165,14 @@ fun HomeNewsItemSection(
 
 @Composable
 fun NewsCardSimple(
-    modifier: Modifier = Modifier,
-    topHeadlinesEntity: TopEntertainmentHeadlinesEntity
+    modifier: Modifier = Modifier, topHeadlinesEntity: TopEntertainmentHeadlinesEntity
 ) {
     OutlinedCard(
         modifier = modifier.padding(8.dp)
     ) {
         Column(modifier.padding(8.dp)) {
             NewsHeaderImage(
-                headerImageUrl = topHeadlinesEntity.urlToImage,
-                contentDescription = topHeadlinesEntity.description
+                headerImageUrl = topHeadlinesEntity.urlToImage, contentDescription = topHeadlinesEntity.description
             )
             Spacer(modifier = modifier.height(8.dp))
             Column {
@@ -104,9 +181,7 @@ fun NewsCardSimple(
             }
             Row {
                 NewsSourceContainer(
-                    modifier = modifier,
-                    sourceText = topHeadlinesEntity.source,
-                    publishedDateText = topHeadlinesEntity.publishedAt
+                    modifier = modifier, sourceText = topHeadlinesEntity.source, publishedDateText = topHeadlinesEntity.publishedAt
                 )
             }
         }
@@ -115,9 +190,7 @@ fun NewsCardSimple(
 
 @Composable
 fun NewsSourceContainer(
-    modifier: Modifier,
-    sourceText: String,
-    publishedDateText: String
+    modifier: Modifier, sourceText: String, publishedDateText: String
 ) {
     Row {
         SourceLabelText(modifier = modifier, sourceText)
@@ -135,39 +208,24 @@ fun PublishedDateText(publishedDateText: String) {
     }
 
     val inlineContent = mapOf(
-        Pair(
-            timeIconId,
-            InlineTextContent(
-                Placeholder(
-                    height = 14.sp,
-                    width = 14.sp,
-                    placeholderVerticalAlign = PlaceholderVerticalAlign.Center
-                )
-            ) {
-                Icon(painterResource(id = R.drawable.ic_time), "")
-            }
-        )
+        Pair(timeIconId, InlineTextContent(
+            Placeholder(
+                height = 14.sp, width = 14.sp, placeholderVerticalAlign = PlaceholderVerticalAlign.Center
+            )
+        ) {
+            Icon(painterResource(id = R.drawable.ic_time), "")
+        })
     )
 
     Text(
-        text = text,
-        inlineContent = inlineContent,
-        maxLines = 1,
-        fontWeight = FontWeight.W400,
-        fontSize = 13.sp,
-        textAlign = TextAlign.Start
+        text = text, inlineContent = inlineContent, maxLines = 1, fontWeight = FontWeight.W400, fontSize = 13.sp, textAlign = TextAlign.Start
     )
 }
 
 @Composable
 fun SourceLabelText(modifier: Modifier, sourceText: String) {
     Text(
-        modifier = modifier,
-        text = sourceText,
-        maxLines = 1,
-        fontWeight = FontWeight.W500,
-        fontSize = 13.sp,
-        textAlign = TextAlign.Start
+        modifier = modifier, text = sourceText, maxLines = 1, fontWeight = FontWeight.W500, fontSize = 13.sp, textAlign = TextAlign.Start
     )
 }
 
@@ -186,8 +244,7 @@ fun CategoriesText(categoriesStringRes: Int, modifier: Modifier) {
 
 @Composable
 fun NewsHeaderImage(
-    headerImageUrl: String?,
-    contentDescription: String?
+    headerImageUrl: String?, contentDescription: String?
 ) {
     AsyncImage(
         placeholder = if (LocalInspectionMode.current) {
@@ -244,6 +301,39 @@ private fun LoadingContent(
     }
 }
 
+/**
+ * Full screen circular progress indicator
+ */
+@Composable
+private fun FullScreenLoading() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.Center)
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+/**
+ * [SnackbarHost] that is configured for insets and large screens
+ */
+@Composable
+private fun SnackbarHost(
+    hostState: SnackbarHostState,
+    modifier: Modifier = Modifier,
+    snackbar: @Composable (SnackbarData) -> Unit = { Snackbar(it) }
+) {
+    SnackbarHost(
+        hostState = hostState, modifier = modifier
+            .systemBarsPadding()
+            // Limit the Snackbar width for large screens
+            .wrapContentWidth(align = Alignment.Start)
+            .widthIn(max = 550.dp), snackbar = snackbar
+    )
+}
+
+
 @Preview("Simple News card")
 @Preview("Simple News card (dark)", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
@@ -260,7 +350,7 @@ fun SimpleTopHeadlinesPreview() {
 @Composable
 fun SimpleTopHeadlinesListPreview() {
     NewsAppTheme() {
-        HomeListScreen(
+        HomeListContent(
             topHeadlinesList = previewTopEntertainmentHeadlinesEntities
         )
     }

@@ -8,9 +8,11 @@ import com.vyshas.newsapp.features.home.domain.entity.TopEntertainmentHeadlinesE
 sealed interface HomeUiState {
     object Loading : HomeUiState
 
-    data class Success(
-        val feed: List<TopEntertainmentHeadlinesEntity>
+    data class HasContent(
+        val data: List<TopEntertainmentHeadlinesEntity>
     ) : HomeUiState
 
-    object Error : HomeUiState
+    object EmptyContent : HomeUiState
+
+    data class Error(val errorMsg: String? = null) : HomeUiState
 }

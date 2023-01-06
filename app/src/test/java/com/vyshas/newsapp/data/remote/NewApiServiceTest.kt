@@ -37,7 +37,7 @@ class NewApiServiceTest : ApiAbstract<NewsApiService>() {
         enqueueResponse("/topentertainmentnews.json")
 
         // Invoke
-        val response = apiService.getTopEntertainmentHeadlines(10, 1, category = "entertainment")
+        val response = apiService.getTopEntertainmentHeadlines(category = "entertainment", pageSize = 10, page = 1)
         val responseBody = requireNotNull((response as ApiResponse.ApiSuccessResponse).data)
         mockWebServer.takeRequest()
 

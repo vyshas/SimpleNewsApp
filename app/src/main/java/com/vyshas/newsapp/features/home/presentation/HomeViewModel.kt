@@ -4,13 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vyshas.newsapp.common.data.DataState
 import com.vyshas.newsapp.common.schedulers.DispatcherProvider
-import com.vyshas.newsapp.features.home.domain.entity.TopEntertainmentHeadlinesEntity
 import com.vyshas.newsapp.features.home.domain.usecase.GetTopEntertainmentNews
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,27 +16,40 @@ class HomeViewModel @Inject constructor(
     private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
-    // UI state exposed to the UI
     private val mutableUiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
-    val uiState: StateFlow<HomeUiState> = mutableUiState.asStateFlow()
+
+    // UI state exposed to the UI
+    val uiState: StateFlow<HomeUiState> = mutableUiState.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000L),
+        initialValue = HomeUiState.Loading
+    )
 
     init {
         refresh()
     }
 
-    private fun refresh() {
-        mutableUiState.update { loading -> loading }
-
+    fun refresh() {
         viewModelScope.launch(dispatcherProvider.main()) {
-            // Trigger repository requests
-            getTopEntertainmentNews().collect { dataState: DataState<List<TopEntertainmentHeadlinesEntity>> ->
-                when (dataState) {
-                    is DataState.Error -> mutableUiState.update { HomeUiState.Error }
-                    is DataState.Success -> mutableUiState.update {
-                        HomeUiState.Success(dataState.data)
+            getTopEntertainmentNews()
+                .catch { ex ->
+                    mutableUiState.update { HomeUiState.Error(ex.message) }
+                }.collect { dataState ->
+                    mutableUiState.update {
+                        when (dataState) {
+                            is DataState.Error -> {
+                                HomeUiState.Error(dataState.message)
+                            }
+                            is DataState.Success -> {
+                                if (dataState.data.isEmpty()) {
+                                    HomeUiState.EmptyContent
+                                } else {
+                                    HomeUiState.HasContent(data = dataState.data)
+                                }
+                            }
+                        }
                     }
                 }
-            }
         }
     }
 }

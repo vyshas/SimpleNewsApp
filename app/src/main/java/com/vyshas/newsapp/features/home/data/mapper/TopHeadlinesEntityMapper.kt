@@ -10,17 +10,19 @@ class TopHeadlinesEntityMapper @Inject constructor() {
         response: TopEntertainmentNews?
     ): List<TopEntertainmentHeadlinesEntity> {
 
-        return response?.articles?.filter { it.content != null }?.map {
+        val topEntertainmentHeadlinesEntities = response?.articles?.filter { it.content != null && it.urlToImage != null }?.map {
             TopEntertainmentHeadlinesEntity(
                 author = it.author ?: "",
                 content = it.content,
-                description = it.description,
+                description = it.description ?: "",
                 publishedAt = it.publishedAt,
-                source = it.source.name,
+                source = it.source.name ?: "",
                 title = it.title,
                 url = it.url,
                 urlToImage = it.urlToImage
             )
         } ?: emptyList()
+
+        return topEntertainmentHeadlinesEntities
     }
 }

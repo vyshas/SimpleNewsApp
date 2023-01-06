@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface TopHeadlinesRepository {
 
-    suspend fun getTopEntertainmentHeadlines(pageSize: Int): Flow<DataState<List<TopEntertainmentHeadlinesEntity>>>
+    fun getTopEntertainmentHeadlines(pageSize: Int): Flow<DataState<List<TopEntertainmentHeadlinesEntity>>>
 }

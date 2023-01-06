@@ -1,6 +1,5 @@
 package com.vyshas.newsapp.features.home.data.repository
 
-import androidx.annotation.WorkerThread
 import com.vyshas.newsapp.common.data.ApiResponse
 import com.vyshas.newsapp.common.data.DataState
 import com.vyshas.newsapp.common.data.message
@@ -17,14 +16,12 @@ class TopHeadlinesRepositoryImpl @Inject constructor(
     private val topHeadlinesEntityMapper: TopHeadlinesEntityMapper
 ) : TopHeadlinesRepository {
 
-    @WorkerThread
-    override suspend fun getTopEntertainmentHeadlines(
+    override fun getTopEntertainmentHeadlines(
         pageSize: Int
     ): Flow<DataState<List<TopEntertainmentHeadlinesEntity>>> {
 
         return flow {
-            when (val topHeadlines =
-                topHeadlinesRemoteDataSource.getTopEntertainmentHeadlines(pageSize = pageSize)) {
+            when (val topHeadlines = topHeadlinesRemoteDataSource.getTopEntertainmentHeadlines(pageSize = pageSize)) {
                 is ApiResponse.ApiSuccessResponse -> {
                     emit(DataState.Success(topHeadlinesEntityMapper.mapToEntity(topHeadlines.data)))
                 }

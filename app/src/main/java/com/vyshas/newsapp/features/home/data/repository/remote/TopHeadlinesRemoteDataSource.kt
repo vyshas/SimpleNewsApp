@@ -11,9 +11,9 @@ class TopHeadlinesRemoteDataSource @Inject constructor(
 
     suspend fun getTopEntertainmentHeadlines(pageSize: Int): ApiResponse<TopEntertainmentNews> =
         newsApiService.getTopEntertainmentHeadlines(
-            pageSize = pageSize,
+            category = CATEGORY,
             country = COUNTRY,
-            category = CATEGORY
+            pageSize = pageSize
         )
 
     private companion object {
