@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Newsapp2</string>
     <string name="categories_text">Entertainment</string>
-    <string name="home">home</string>
-    <string name="explore">explore</string>
+    <string name="home">Home</string>
+    <string name="explore">Explore</string>
     <string name="retry">Retry</string>
     <string name="error_generic">Something went wrong.</string>
 

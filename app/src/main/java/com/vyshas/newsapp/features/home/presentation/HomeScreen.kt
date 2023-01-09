@@ -9,10 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -49,7 +46,8 @@ fun HomeScreen(
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
     HomeListScreen(
         uiState = uiState,
-        onRefresh = { homeViewModel.refresh() }
+        onRefresh = { homeViewModel.refresh() },
+        onErrorConsumed = { homeViewModel.onErrorConsumed() }
     )
 }
 
@@ -58,10 +56,11 @@ fun HomeScreen(
 fun HomeListScreen(
     modifier: Modifier = Modifier,
     uiState: HomeUiState,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    onErrorConsumed: () -> Unit
 ) {
     val topAppBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
     val isFeedLoading = uiState is HomeUiState.Loading
     val isEmpty = uiState is HomeUiState.EmptyContent
 
@@ -69,21 +68,14 @@ fun HomeListScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = R.string.home)) },
-                scrollBehavior = scrollBehavior
-            )
+            TopBar(scrollBehavior, stringResource(id = R.string.home))
         },
         modifier = modifier,
-/*        snackbarHost = {
-            SnackbarHost(
-                modifier = modifier,
-                hostState = snackbarHostState
-            )
-        }*/
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        }
     ) { innerPadding ->
         val contentModifier = Modifier
-            .padding(innerPadding)
             .nestedScroll(scrollBehavior.nestedScrollConnection)
 
         LoadingContent(
@@ -99,7 +91,11 @@ fun HomeListScreen(
                     contentPadding = innerPadding,
                     topHeadlinesList = uiState.data
                 )
-                is HomeUiState.Error -> showErrorMessage(snackbarHostState, onRefresh)
+                is HomeUiState.Error -> ShowErrorMessage(
+                    snackbarHostState = snackbarHostState,
+                    onRefresh = onRefresh,
+                    onErrorConsumed = onErrorConsumed
+                )
                 HomeUiState.EmptyContent -> Unit
             }
         }
@@ -108,27 +104,40 @@ fun HomeListScreen(
 }
 
 @Composable
-fun showErrorMessage(
+@OptIn(ExperimentalMaterial3Api::class)
+private fun TopBar(
+    scrollBehavior: TopAppBarScrollBehavior,
+    titleText: String
+) {
+    CenterAlignedTopAppBar(
+        title = { Text(text = titleText) },
+        scrollBehavior = scrollBehavior
+    )
+}
+
+@Composable
+fun ShowErrorMessage(
     snackbarHostState: SnackbarHostState,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    onErrorConsumed: () -> Unit
 ) {
     // Get the text to show on the message from resources
     val errorMessageText: String = stringResource(R.string.error_generic)
     val retryMessageText = stringResource(id = R.string.retry)
 
-
-    // Effect running in a coroutine that displays the Snackbar on the screen
-    // If there's a change to errorMessageText, retryMessageText or snackbarHostState,
-    // the previous effect will be cancelled and a new one will start with the new values
-    LaunchedEffect(errorMessageText, snackbarHostState) {
+    LaunchedEffect(Unit) {
         val snackbarResult = snackbarHostState.showSnackbar(
             message = errorMessageText,
-            actionLabel = retryMessageText
+            actionLabel = retryMessageText,
         )
-        if (snackbarResult == SnackbarResult.ActionPerformed) {
-            onRefresh()
+
+        when (snackbarResult) {
+            SnackbarResult.Dismissed -> Unit
+            SnackbarResult.ActionPerformed -> onRefresh()
         }
+        onErrorConsumed()
     }
+
 }
 
 @Composable
@@ -315,25 +324,6 @@ private fun FullScreenLoading() {
     }
 }
 
-/**
- * [SnackbarHost] that is configured for insets and large screens
- */
-@Composable
-private fun SnackbarHost(
-    hostState: SnackbarHostState,
-    modifier: Modifier = Modifier,
-    snackbar: @Composable (SnackbarData) -> Unit = { Snackbar(it) }
-) {
-    SnackbarHost(
-        hostState = hostState, modifier = modifier
-            .systemBarsPadding()
-            // Limit the Snackbar width for large screens
-            .wrapContentWidth(align = Alignment.Start)
-            .widthIn(max = 550.dp), snackbar = snackbar
-    )
-}
-
-
 @Preview("Simple News card")
 @Preview("Simple News card (dark)", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
@@ -352,6 +342,19 @@ fun SimpleTopHeadlinesListPreview() {
     NewsAppTheme() {
         HomeListContent(
             topHeadlinesList = previewTopEntertainmentHeadlinesEntities
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview("Top Bar")
+@Preview("TopBar (dark)", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun TopBar() {
+    NewsAppTheme {
+        TopBar(
+            scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(),
+            titleText = "Home"
         )
     }
 }

@@ -52,4 +52,8 @@ class HomeViewModel @Inject constructor(
                 }
         }
     }
+
+    fun onErrorConsumed() {
+        //TODO
+    }
 }
