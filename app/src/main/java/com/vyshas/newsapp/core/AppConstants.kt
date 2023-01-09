@@ -1,4 +1,4 @@
-package com.vyshas.newsapp.common
+package com.vyshas.newsapp.core
 
 object AppConstants {
     object API {

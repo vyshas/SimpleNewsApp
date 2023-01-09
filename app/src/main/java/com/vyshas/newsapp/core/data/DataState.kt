@@ -1,4 +1,4 @@
-package com.vyshas.newsapp.common.data
+package com.vyshas.newsapp.core.data
 
 /**
  * A generic class that holds a value or an exception

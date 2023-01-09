@@ -1,4 +1,4 @@
-package com.vyshas.newsapp.common.data
+package com.vyshas.newsapp.core.data
 
 import retrofit2.Call
 import retrofit2.CallAdapter

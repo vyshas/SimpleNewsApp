@@ -1,6 +1,6 @@
 package com.vyshas.newsapp.data.remote
 
-import com.vyshas.newsapp.common.data.ApiResponse
+import com.vyshas.newsapp.core.data.ApiResponse
 import retrofit2.Response
 
 object ApiUtil {

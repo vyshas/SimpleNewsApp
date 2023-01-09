@@ -2,8 +2,8 @@ package com.vyshas.newsapp.features.home.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vyshas.newsapp.common.data.DataState
-import com.vyshas.newsapp.common.schedulers.DispatcherProvider
+import com.vyshas.newsapp.core.data.DataState
+import com.vyshas.newsapp.core.schedulers.DispatcherProvider
 import com.vyshas.newsapp.features.home.domain.usecase.GetTopEntertainmentNews
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*

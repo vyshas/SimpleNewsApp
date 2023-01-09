@@ -1,6 +1,6 @@
 package com.vyshas.newsapp.features.home.domain.usecase
 
-import com.vyshas.newsapp.common.data.DataState
+import com.vyshas.newsapp.core.data.DataState
 import com.vyshas.newsapp.features.home.domain.entity.TopEntertainmentHeadlinesEntity
 import com.vyshas.newsapp.features.home.domain.repository.TopHeadlinesRepository
 import kotlinx.coroutines.flow.Flow

@@ -2,7 +2,7 @@ package com.vyshas.newsapp
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.vyshas.newsapp.common.isNight
+import com.vyshas.newsapp.core.isNight
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp

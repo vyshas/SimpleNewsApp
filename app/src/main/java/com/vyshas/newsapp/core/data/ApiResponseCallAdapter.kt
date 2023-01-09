@@ -1,4 +1,4 @@
-package com.vyshas.newsapp.common.data
+package com.vyshas.newsapp.core.data
 
 import okhttp3.Request
 import okio.Timeout

@@ -1,4 +1,4 @@
-package com.vyshas.newsapp.common.data
+package com.vyshas.newsapp.core.data
 
 import com.vyshas.newsapp.features.home.data.model.entertainmentnews.TopEntertainmentNews
 import retrofit2.http.GET

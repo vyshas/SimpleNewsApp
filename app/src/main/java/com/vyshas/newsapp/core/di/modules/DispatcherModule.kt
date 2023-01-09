@@ -1,7 +1,7 @@
-package com.vyshas.newsapp.common.di.modules
+package com.vyshas.newsapp.core.di.modules
 
-import com.vyshas.newsapp.common.schedulers.CoroutineDispatcher
-import com.vyshas.newsapp.common.schedulers.DispatcherProvider
+import com.vyshas.newsapp.core.schedulers.CoroutineDispatcher
+import com.vyshas.newsapp.core.schedulers.DispatcherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

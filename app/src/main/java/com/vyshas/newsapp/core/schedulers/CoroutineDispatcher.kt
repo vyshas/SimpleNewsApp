@@ -1,4 +1,4 @@
-package com.vyshas.newsapp.common.schedulers
+package com.vyshas.newsapp.core.schedulers
 
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject

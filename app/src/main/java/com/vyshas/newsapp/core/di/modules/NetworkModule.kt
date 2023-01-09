@@ -1,12 +1,12 @@
-package com.vyshas.newsapp.common.di.modules
+package com.vyshas.newsapp.core.di.modules
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.vyshas.newsapp.BuildConfig
-import com.vyshas.newsapp.common.AppConstants
-import com.vyshas.newsapp.common.data.ApiResponseCallAdapterFactory
-import com.vyshas.newsapp.common.data.NewsApiService
-import com.vyshas.newsapp.common.data.NewsApiService.Companion.BASE_API_URL
+import com.vyshas.newsapp.core.AppConstants
+import com.vyshas.newsapp.core.data.ApiResponseCallAdapterFactory
+import com.vyshas.newsapp.core.data.NewsApiService
+import com.vyshas.newsapp.core.data.NewsApiService.Companion.BASE_API_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

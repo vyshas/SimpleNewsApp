@@ -1,8 +1,8 @@
 package com.vyshas.newsapp.features.home.data.repository
 
-import com.vyshas.newsapp.common.data.ApiResponse
-import com.vyshas.newsapp.common.data.DataState
-import com.vyshas.newsapp.common.data.message
+import com.vyshas.newsapp.core.data.ApiResponse
+import com.vyshas.newsapp.core.data.DataState
+import com.vyshas.newsapp.core.data.message
 import com.vyshas.newsapp.features.home.data.mapper.TopHeadlinesEntityMapper
 import com.vyshas.newsapp.features.home.data.repository.remote.TopHeadlinesRemoteDataSource
 import com.vyshas.newsapp.features.home.domain.entity.TopEntertainmentHeadlinesEntity

@@ -1,7 +1,7 @@
 package com.vyshas.newsapp.data.remote
 
-import com.vyshas.newsapp.common.data.ApiResponse
-import com.vyshas.newsapp.common.data.NewsApiService
+import com.vyshas.newsapp.core.data.ApiResponse
+import com.vyshas.newsapp.core.data.NewsApiService
 import com.vyshas.newsapp.data.MainCoroutinesRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking

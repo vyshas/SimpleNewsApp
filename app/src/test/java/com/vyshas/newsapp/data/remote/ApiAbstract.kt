@@ -3,7 +3,7 @@ package com.vyshas.newsapp.data.remote
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.vyshas.newsapp.common.data.ApiResponseCallAdapterFactory
+import com.vyshas.newsapp.core.data.ApiResponseCallAdapterFactory
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest

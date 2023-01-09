@@ -1,4 +1,4 @@
-package com.vyshas.newsapp.common
+package com.vyshas.newsapp.core
 
 import android.content.Context
 import android.view.inputmethod.InputMethodManager

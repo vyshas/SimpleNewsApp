@@ -1,7 +1,7 @@
 package com.vyshas.newsapp.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.vyshas.newsapp.common.data.DataState
+import com.vyshas.newsapp.core.data.DataState
 import com.vyshas.newsapp.data.MainCoroutinesRule
 import com.vyshas.newsapp.data.TopHeadlinesMockTestUtil
 import com.vyshas.newsapp.data.remote.ApiUtil.successCall
