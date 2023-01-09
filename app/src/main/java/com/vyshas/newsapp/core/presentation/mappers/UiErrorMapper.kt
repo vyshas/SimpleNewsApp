@@ -4,7 +4,7 @@ import com.vyshas.newsapp.core.domain.exceptions.ExceptionEntity
 import timber.log.Timber
 import javax.inject.Inject
 
-class UIErrorMapper @Inject constructor(
+class UiErrorMapper @Inject constructor(
     private val stringUtils: StringUtils
 ) {
     fun mapToUiMsg(exceptionEntity: ExceptionEntity): String {
