@@ -3,6 +3,7 @@ package com.vyshas.newsapp.features.home.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vyshas.newsapp.core.data.DataState
+import com.vyshas.newsapp.core.presentation.mappers.UIErrorMapper
 import com.vyshas.newsapp.core.schedulers.DispatcherProvider
 import com.vyshas.newsapp.features.home.domain.usecase.GetTopEntertainmentNews
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getTopEntertainmentNews: GetTopEntertainmentNews,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
+    private val uiErrorMapper: UIErrorMapper
 ) : ViewModel() {
 
     private val mutableUiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
@@ -48,9 +50,8 @@ class HomeViewModel @Inject constructor(
                     mutableUiState.update {
                         when (dataState) {
                             is DataState.Error -> {
-                                val errorMsg = dataState.message
-                                Timber.d(errorMsg)
-                                HomeUiState.Error(errorMsg)
+                                val mapToUiMsg = uiErrorMapper.mapToUiMsg(dataState.message)
+                                HomeUiState.Error(mapToUiMsg)
                             }
                             is DataState.Success -> {
                                 if (dataState.data.isEmpty()) {

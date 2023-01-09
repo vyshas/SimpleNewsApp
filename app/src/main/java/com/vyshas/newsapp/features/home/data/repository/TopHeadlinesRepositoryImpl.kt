@@ -2,7 +2,9 @@ package com.vyshas.newsapp.features.home.data.repository
 
 import com.vyshas.newsapp.core.data.ApiResponse
 import com.vyshas.newsapp.core.data.DataState
+import com.vyshas.newsapp.core.data.mapErrorOrException
 import com.vyshas.newsapp.core.data.message
+import com.vyshas.newsapp.core.domain.exceptions.ExceptionEntity
 import com.vyshas.newsapp.features.home.data.mapper.TopHeadlinesEntityMapper
 import com.vyshas.newsapp.features.home.data.repository.remote.TopHeadlinesRemoteDataSource
 import com.vyshas.newsapp.features.home.domain.entity.TopEntertainmentHeadlinesEntity
@@ -25,8 +27,14 @@ class TopHeadlinesRepositoryImpl @Inject constructor(
                 is ApiResponse.ApiSuccessResponse -> {
                     emit(DataState.Success(topHeadlinesEntityMapper.mapToEntity(topHeadlines.data)))
                 }
-                is ApiResponse.ApiFailureResponse.Error -> emit(DataState.Error(topHeadlines.message()))
-                is ApiResponse.ApiFailureResponse.Exception -> emit(DataState.Error(topHeadlines.message()))
+                is ApiResponse.ApiFailureResponse.Error -> {
+                    val mapError = ExceptionEntity.ApiErrorEntity(topHeadlines.message())
+                    emit(DataState.Error(mapError))
+                }
+                is ApiResponse.ApiFailureResponse.Exception -> {
+                    val mapException = topHeadlines.exception.mapErrorOrException()
+                    emit(DataState.Error(mapException))
+                }
             }
         }
 
