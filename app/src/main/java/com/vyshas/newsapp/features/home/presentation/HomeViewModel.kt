@@ -8,6 +8,7 @@ import com.vyshas.newsapp.features.home.domain.usecase.GetTopEntertainmentNews
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,13 +33,24 @@ class HomeViewModel @Inject constructor(
     fun refresh() {
         viewModelScope.launch(dispatcherProvider.main()) {
             getTopEntertainmentNews()
+                .onStart {
+                    mutableUiState.update {
+                        HomeUiState.Loading
+                    }
+                }
                 .catch { ex ->
-                    mutableUiState.update { HomeUiState.Error(ex.message) }
+                    mutableUiState.update {
+                        val errorMessage = ex.message
+                        Timber.d(errorMessage)
+                        HomeUiState.Error(errorMessage)
+                    }
                 }.collect { dataState ->
                     mutableUiState.update {
                         when (dataState) {
                             is DataState.Error -> {
-                                HomeUiState.Error(dataState.message)
+                                val errorMsg = dataState.message
+                                Timber.d(errorMsg)
+                                HomeUiState.Error(errorMsg)
                             }
                             is DataState.Success -> {
                                 if (dataState.data.isEmpty()) {
@@ -54,6 +66,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onErrorConsumed() {
-        //TODO
+        Timber.d("error consumed called")
     }
 }
