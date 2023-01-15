@@ -10,7 +10,7 @@ class UiErrorMapper @Inject constructor(
     fun mapToUiMsg(exceptionEntity: ExceptionEntity): String {
         return when (exceptionEntity) {
             is ExceptionEntity.ApiErrorEntity -> {
-                Timber.d(exceptionEntity.errorMsg)
+                Timber.d(message = exceptionEntity.errorMsg)
                 stringUtils.noNetworkErrorMessage()
             }
             ExceptionEntity.NoConnectivityErrorEntity -> {

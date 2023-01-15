@@ -35,11 +35,6 @@ class HomeViewModel @Inject constructor(
     fun refresh() {
         viewModelScope.launch(dispatcherProvider.main()) {
             getTopEntertainmentNews()
-                .onStart {
-                    mutableUiState.update {
-                        HomeUiState.Loading
-                    }
-                }
                 .catch { ex ->
                     mutableUiState.update {
                         val errorMessage = ex.message
