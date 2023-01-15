@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.vyshas.newsapp.features.home.presentation.HomeFragment"
+        android:name="com.vyshas.newsapp.features.home.presentation.list.HomeFragment"
         android:label="fragment_home"
         />
     <fragment

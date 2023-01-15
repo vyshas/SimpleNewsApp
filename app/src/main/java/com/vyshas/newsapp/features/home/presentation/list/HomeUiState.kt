@@ -1,4 +1,4 @@
-package com.vyshas.newsapp.features.home.presentation
+package com.vyshas.newsapp.features.home.presentation.list
 
 import com.vyshas.newsapp.features.home.domain.entity.TopEntertainmentHeadlinesEntity
 

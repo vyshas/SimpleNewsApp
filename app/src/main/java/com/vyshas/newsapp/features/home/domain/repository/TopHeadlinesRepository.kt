@@ -5,6 +5,5 @@ import com.vyshas.newsapp.features.home.domain.entity.TopEntertainmentHeadlinesE
 import kotlinx.coroutines.flow.Flow
 
 interface TopHeadlinesRepository {
-
     fun getTopEntertainmentHeadlines(pageSize: Int): Flow<DataState<List<TopEntertainmentHeadlinesEntity>>>
 }

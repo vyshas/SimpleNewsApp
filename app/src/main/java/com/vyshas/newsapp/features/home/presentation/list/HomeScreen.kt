@@ -1,4 +1,4 @@
-package com.vyshas.newsapp.features.home.presentation
+package com.vyshas.newsapp.features.home.presentation.list
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*

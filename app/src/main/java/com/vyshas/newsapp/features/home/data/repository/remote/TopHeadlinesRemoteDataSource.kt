@@ -8,7 +8,6 @@ import javax.inject.Inject
 class TopHeadlinesRemoteDataSource @Inject constructor(
     private val newsApiService: NewsApiService
 ) {
-
     suspend fun getTopEntertainmentHeadlines(pageSize: Int): ApiResponse<TopEntertainmentNews> =
         newsApiService.getTopEntertainmentHeadlines(
             category = CATEGORY,

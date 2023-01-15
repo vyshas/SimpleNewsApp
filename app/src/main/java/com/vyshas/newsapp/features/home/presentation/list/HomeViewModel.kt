@@ -1,4 +1,4 @@
-package com.vyshas.newsapp.features.home.presentation
+package com.vyshas.newsapp.features.home.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
