@@ -18,6 +18,7 @@ buildscript {
         accompanist_version = "0.23.0"
         coil_version = "2.2.2"
         timber_version = "5.0.1"
+        browser_version = '1.4.0'
     }
 
     repositories {

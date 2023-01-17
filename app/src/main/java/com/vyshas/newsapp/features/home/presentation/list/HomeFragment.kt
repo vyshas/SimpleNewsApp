@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.vyshas.newsapp.core.presentation.browser.launchCustomChromeTab
 import com.vyshas.newsapp.ui.theme.NewsAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +25,10 @@ class HomeFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 NewsAppTheme {
-                    HomeScreen(homeViewModel = homeViewModel)
+                    HomeScreen(
+                        homeViewModel = homeViewModel,
+                        onNewsItemClick = { launchCustomChromeTab(requireContext(), it) }
+                    )
                 }
             }
         }

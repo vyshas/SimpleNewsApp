@@ -64,4 +64,8 @@ class HomeViewModel @Inject constructor(
     fun onErrorConsumed() {
         Timber.d("error consumed called")
     }
+
+    fun onNewsItemClick(url: String) {
+        Timber.d("NewsItem url:$url")
+    }
 }

@@ -1,6 +1,7 @@
 package com.vyshas.newsapp.features.home.presentation.list
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -41,13 +42,18 @@ import com.vyshas.newsapp.ui.theme.NewsAppTheme
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun HomeScreen(
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
+    onNewsItemClick: (String) -> Unit
 ) {
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
     HomeListScreen(
         uiState = uiState,
         onRefresh = { homeViewModel.refresh() },
-        onErrorConsumed = { homeViewModel.onErrorConsumed() }
+        onErrorConsumed = { homeViewModel.onErrorConsumed() },
+        onNewsItemClick = {
+            homeViewModel.onNewsItemClick(it)
+            onNewsItemClick(it)
+        }
     )
 }
 
@@ -57,7 +63,8 @@ fun HomeListScreen(
     modifier: Modifier = Modifier,
     uiState: HomeUiState,
     onRefresh: () -> Unit,
-    onErrorConsumed: () -> Unit
+    onErrorConsumed: () -> Unit,
+    onNewsItemClick: (String) -> Unit
 ) {
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
@@ -87,16 +94,17 @@ fun HomeListScreen(
             when (uiState) {
                 HomeUiState.Loading -> Unit
                 is HomeUiState.HasContent -> HomeListContent(
+                    topHeadlinesList = uiState.data,
                     modifier = contentModifier,
                     contentPadding = innerPadding,
-                    topHeadlinesList = uiState.data
+                    onNewsItemClick = onNewsItemClick
                 )
                 is HomeUiState.Error -> ShowErrorMessage(
                     snackbarHostState = snackbarHostState,
                     onRefresh = onRefresh,
                     onErrorConsumed = onErrorConsumed
                 )
-                HomeUiState.EmptyContent -> Unit
+                HomeUiState.EmptyContent -> FullScreenLoading()
             }
         }
 
@@ -145,7 +153,8 @@ fun HomeListContent(
     topHeadlinesList: List<TopEntertainmentHeadlinesEntity>,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
-    state: LazyListState = rememberLazyListState()
+    state: LazyListState = rememberLazyListState(),
+    onNewsItemClick: (String) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
@@ -154,19 +163,21 @@ fun HomeListContent(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         item {
-            HomeNewsItemSection(topHeadlinesList = topHeadlinesList)
+            HomeNewsItemSection(topHeadlinesList = topHeadlinesList, onNewsItemClick = onNewsItemClick)
         }
     }
 }
 
 @Composable
 fun HomeNewsItemSection(
-    topHeadlinesList: List<TopEntertainmentHeadlinesEntity>
+    topHeadlinesList: List<TopEntertainmentHeadlinesEntity>,
+    onNewsItemClick: (String) -> Unit
 ) {
     Column {
         topHeadlinesList.forEach { topHeadlinesEntity ->
             NewsCardSimple(
-                topHeadlinesEntity = topHeadlinesEntity
+                topHeadlinesEntity = topHeadlinesEntity,
+                onNewsItemClick = onNewsItemClick
             )
         }
     }
@@ -174,10 +185,14 @@ fun HomeNewsItemSection(
 
 @Composable
 fun NewsCardSimple(
-    modifier: Modifier = Modifier, topHeadlinesEntity: TopEntertainmentHeadlinesEntity
+    modifier: Modifier = Modifier,
+    topHeadlinesEntity: TopEntertainmentHeadlinesEntity,
+    onNewsItemClick: (String) -> Unit
 ) {
     OutlinedCard(
-        modifier = modifier.padding(8.dp)
+        modifier = modifier
+            .padding(8.dp)
+            .clickable(onClick = { onNewsItemClick(topHeadlinesEntity.url) })
     ) {
         Column(modifier.padding(8.dp)) {
             NewsHeaderImage(
@@ -215,7 +230,6 @@ fun PublishedDateText(publishedDateText: String) {
         appendInlineContent(timeIconId, "timeIconText")
         append(publishedDateText)
     }
-
     val inlineContent = mapOf(
         Pair(timeIconId, InlineTextContent(
             Placeholder(
@@ -330,7 +344,7 @@ private fun FullScreenLoading() {
 fun SimpleTopHeadlinesPreview() {
     NewsAppTheme() {
         Surface {
-            NewsCardSimple(topHeadlinesEntity = previewTopEntertainmentHeadlinesEntities[0])
+            NewsCardSimple(topHeadlinesEntity = previewTopEntertainmentHeadlinesEntities[0], onNewsItemClick = {})
         }
     }
 }
@@ -341,7 +355,8 @@ fun SimpleTopHeadlinesPreview() {
 fun SimpleTopHeadlinesListPreview() {
     NewsAppTheme() {
         HomeListContent(
-            topHeadlinesList = previewTopEntertainmentHeadlinesEntities
+            topHeadlinesList = previewTopEntertainmentHeadlinesEntities,
+            onNewsItemClick = {}
         )
     }
 }

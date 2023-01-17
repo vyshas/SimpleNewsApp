@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Newsapp2</string>
+    <string name="app_name">Newsapp</string>
     <string name="categories_text">Entertainment</string>
     <string name="home">Home</string>
     <string name="explore">Explore</string>

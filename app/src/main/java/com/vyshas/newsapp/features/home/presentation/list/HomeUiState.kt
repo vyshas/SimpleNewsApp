@@ -15,4 +15,5 @@ sealed interface HomeUiState {
     object EmptyContent : HomeUiState
 
     data class Error(val errorMsg: String? = null) : HomeUiState
+
 }
