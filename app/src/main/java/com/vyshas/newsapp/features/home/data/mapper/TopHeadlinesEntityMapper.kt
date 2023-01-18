@@ -1,10 +1,13 @@
 package com.vyshas.newsapp.features.home.data.mapper
 
+import com.vyshas.newsapp.core.presentation.mappers.StringUtils
 import com.vyshas.newsapp.features.home.data.model.entertainmentnews.TopEntertainmentNews
 import com.vyshas.newsapp.features.home.domain.entity.TopEntertainmentHeadlinesEntity
 import javax.inject.Inject
 
-class TopHeadlinesEntityMapper @Inject constructor() {
+class TopHeadlinesEntityMapper @Inject constructor(
+    private val stringUtils: StringUtils
+) {
 
     fun mapToEntity(
         response: TopEntertainmentNews?
@@ -15,7 +18,7 @@ class TopHeadlinesEntityMapper @Inject constructor() {
                 author = it.author ?: "",
                 content = it.content,
                 description = it.description ?: "",
-                publishedAt = it.publishedAt,
+                publishedAt = stringUtils.instantToAgoString(it.publishedAt),
                 source = it.source.name ?: "",
                 title = it.title,
                 url = it.url,

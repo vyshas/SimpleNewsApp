@@ -1,4 +1,4 @@
-package com.vyshas.newsapp.core.data
+package com.vyshas.newsapp.core.data.model
 
 import retrofit2.Response
 

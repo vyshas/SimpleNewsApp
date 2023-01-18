@@ -1,9 +1,9 @@
 package com.vyshas.newsapp.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.vyshas.newsapp.core.data.ApiResponse
-import com.vyshas.newsapp.core.data.DataState
-import com.vyshas.newsapp.core.data.mapErrorOrException
+import com.vyshas.newsapp.core.data.model.ApiResponse
+import com.vyshas.newsapp.core.domain.entity.DataState
+import com.vyshas.newsapp.core.domain.entity.mapErrorOrException
 import com.vyshas.newsapp.core.domain.exceptions.ExceptionEntity
 import com.vyshas.newsapp.data.MainCoroutinesRule
 import com.vyshas.newsapp.data.TopHeadlinesMockTestUtil

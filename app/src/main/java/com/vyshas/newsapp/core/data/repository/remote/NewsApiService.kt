@@ -1,5 +1,6 @@
-package com.vyshas.newsapp.core.data
+package com.vyshas.newsapp.core.data.repository.remote
 
+import com.vyshas.newsapp.core.data.model.ApiResponse
 import com.vyshas.newsapp.features.home.data.model.entertainmentnews.TopEntertainmentNews
 import retrofit2.http.GET
 import retrofit2.http.Query

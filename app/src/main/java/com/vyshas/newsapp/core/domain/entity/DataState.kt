@@ -1,4 +1,4 @@
-package com.vyshas.newsapp.core.data
+package com.vyshas.newsapp.core.domain.entity
 
 import com.vyshas.newsapp.core.domain.exceptions.ExceptionEntity
 

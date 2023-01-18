@@ -3,7 +3,9 @@ package com.vyshas.newsapp.data.remote
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.vyshas.newsapp.core.data.ApiResponseCallAdapterFactory
+import com.vyshas.newsapp.core.data.model.ApiResponseCallAdapterFactory
+import com.vyshas.newsapp.core.data.utils.InstantJsonAdapter
+import kotlinx.datetime.Instant
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
@@ -63,7 +65,10 @@ abstract class ApiAbstract<T> {
             .baseUrl(mockWebServer.url("/"))
             .addConverterFactory(
                 MoshiConverterFactory.create(
-                    Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+                    Moshi.Builder()
+                        .add(KotlinJsonAdapterFactory())
+                        .add(Instant::class.java, InstantJsonAdapter())
+                        .build()
                 )
             )
             .addCallAdapterFactory(ApiResponseCallAdapterFactory())

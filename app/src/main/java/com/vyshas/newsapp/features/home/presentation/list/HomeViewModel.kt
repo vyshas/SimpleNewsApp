@@ -2,7 +2,7 @@ package com.vyshas.newsapp.features.home.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vyshas.newsapp.core.data.DataState
+import com.vyshas.newsapp.core.domain.entity.DataState
 import com.vyshas.newsapp.core.presentation.mappers.UiErrorMapper
 import com.vyshas.newsapp.core.schedulers.DispatcherProvider
 import com.vyshas.newsapp.features.home.domain.usecase.GetTopEntertainmentNews
