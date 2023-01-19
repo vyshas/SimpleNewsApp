@@ -1,4 +1,4 @@
-package com.vyshas.newsapp.data
+package com.vyshas.newsapp.core
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

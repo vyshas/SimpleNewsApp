@@ -8,7 +8,6 @@ import javax.inject.Inject
 class TopHeadlinesEntityMapper @Inject constructor(
     private val stringUtils: StringUtils
 ) {
-
     fun mapToEntity(
         response: TopEntertainmentNews?
     ): List<TopEntertainmentHeadlinesEntity> {

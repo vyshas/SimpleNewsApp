@@ -1,17 +1,16 @@
-package com.vyshas.newsapp.data.repository
+package com.vyshas.newsapp.features.home.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.vyshas.newsapp.core.MainCoroutinesRule
+import com.vyshas.newsapp.core.data.ApiUtil.successCall
 import com.vyshas.newsapp.core.data.model.ApiResponse
 import com.vyshas.newsapp.core.domain.entity.DataState
 import com.vyshas.newsapp.core.domain.entity.mapErrorOrException
 import com.vyshas.newsapp.core.domain.exceptions.ExceptionEntity
-import com.vyshas.newsapp.data.MainCoroutinesRule
-import com.vyshas.newsapp.data.TopHeadlinesMockTestUtil
-import com.vyshas.newsapp.data.remote.ApiUtil.successCall
 import com.vyshas.newsapp.features.home.data.mapper.TopHeadlinesEntityMapper
 import com.vyshas.newsapp.features.home.data.model.entertainmentnews.TopEntertainmentNews
-import com.vyshas.newsapp.features.home.data.repository.TopHeadlinesRepositoryImpl
 import com.vyshas.newsapp.features.home.data.repository.remote.TopHeadlinesRemoteDataSource
+import com.vyshas.newsapp.features.home.domain.TopHeadlinesMockTestUtil
 import com.vyshas.newsapp.features.home.domain.entity.TopEntertainmentHeadlinesEntity
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery

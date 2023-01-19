@@ -1,4 +1,4 @@
-package com.vyshas.newsapp.data.remote
+package com.vyshas.newsapp.core.data
 
 import com.vyshas.newsapp.core.data.model.ApiResponse
 import retrofit2.Response

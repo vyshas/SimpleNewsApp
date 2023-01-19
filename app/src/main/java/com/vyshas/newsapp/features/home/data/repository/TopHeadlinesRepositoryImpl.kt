@@ -1,9 +1,9 @@
 package com.vyshas.newsapp.features.home.data.repository
 
 import com.vyshas.newsapp.core.data.model.ApiResponse
+import com.vyshas.newsapp.core.data.model.message
 import com.vyshas.newsapp.core.domain.entity.DataState
 import com.vyshas.newsapp.core.domain.entity.mapErrorOrException
-import com.vyshas.newsapp.core.data.model.message
 import com.vyshas.newsapp.core.domain.exceptions.ExceptionEntity
 import com.vyshas.newsapp.features.home.data.mapper.TopHeadlinesEntityMapper
 import com.vyshas.newsapp.features.home.data.repository.remote.TopHeadlinesRemoteDataSource
@@ -17,7 +17,6 @@ class TopHeadlinesRepositoryImpl @Inject constructor(
     private val topHeadlinesRemoteDataSource: TopHeadlinesRemoteDataSource,
     private val topHeadlinesEntityMapper: TopHeadlinesEntityMapper
 ) : TopHeadlinesRepository {
-
     override fun getTopEntertainmentHeadlines(
         pageSize: Int
     ): Flow<DataState<List<TopEntertainmentHeadlinesEntity>>> {

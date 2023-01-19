@@ -1,4 +1,4 @@
-package com.vyshas.newsapp.data.remote
+package com.vyshas.newsapp.core.data
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.squareup.moshi.Moshi
