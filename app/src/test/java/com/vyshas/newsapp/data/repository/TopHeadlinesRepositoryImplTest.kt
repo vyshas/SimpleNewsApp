@@ -20,7 +20,7 @@ import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.junit.After
@@ -61,8 +61,9 @@ class TopHeadlinesRepositoryImplTest {
     fun tearDown() {
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `test getTopHeadlines() gives list of headlines`() = runBlocking {
+    fun `test getTopHeadlines() gives list of headlines`() = runTest {
         // Given
         repository = TopHeadlinesRepositoryImpl(
             topHeadlinesEntityMapper = topHeadlinesEntityMapper,
@@ -96,8 +97,9 @@ class TopHeadlinesRepositoryImplTest {
         confirmVerified(topHeadlinesRemoteDataSource)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `test getTopHeadlines() gives Api Exception`() = runBlocking {
+    fun `test getTopHeadlines() gives Api Exception`() = runTest {
         // Given
         repository = TopHeadlinesRepositoryImpl(
             topHeadlinesEntityMapper = topHeadlinesEntityMapper,
