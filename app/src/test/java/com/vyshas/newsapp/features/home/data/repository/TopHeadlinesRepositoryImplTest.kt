@@ -1,7 +1,7 @@
 package com.vyshas.newsapp.features.home.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.vyshas.newsapp.core.MainCoroutinesRule
+import com.vyshas.newsapp.core.domain.MainCoroutinesRule
 import com.vyshas.newsapp.core.data.ApiUtil.successCall
 import com.vyshas.newsapp.core.data.model.ApiResponse
 import com.vyshas.newsapp.core.domain.entity.DataState
@@ -21,7 +21,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert
+import org.hamcrest.MatcherAssert.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -80,17 +80,17 @@ class TopHeadlinesRepositoryImplTest {
 
         val apiResponseFlow = repository.getTopEntertainmentHeadlines(1)
         // Then
-        MatcherAssert.assertThat(apiResponseFlow, CoreMatchers.notNullValue())
+        assertThat(apiResponseFlow, CoreMatchers.notNullValue())
 
         // Invoke
         val topHeadlinesEntityDateState = apiResponseFlow.first()
         // Then
-        MatcherAssert.assertThat(topHeadlinesEntityDateState, CoreMatchers.notNullValue())
-        MatcherAssert.assertThat(topHeadlinesEntityDateState, CoreMatchers.instanceOf(DataState.Success::class.java))
+        assertThat(topHeadlinesEntityDateState, CoreMatchers.notNullValue())
+        assertThat(topHeadlinesEntityDateState, CoreMatchers.instanceOf(DataState.Success::class.java))
 
         val topHeadlinesEntityList: List<TopEntertainmentHeadlinesEntity> = (topHeadlinesEntityDateState as DataState.Success).data
-        MatcherAssert.assertThat(topHeadlinesEntityList, CoreMatchers.notNullValue())
-        MatcherAssert.assertThat(topHeadlinesEntityList.size, CoreMatchers.`is`(givenTopHeadlinesEntityList.size))
+        assertThat(topHeadlinesEntityList, CoreMatchers.notNullValue())
+        assertThat(topHeadlinesEntityList.size, CoreMatchers.`is`(givenTopHeadlinesEntityList.size))
 
         coVerify(exactly = 1) { topHeadlinesRemoteDataSource.getTopEntertainmentHeadlines(any()) }
         confirmVerified(topHeadlinesRemoteDataSource)
@@ -116,15 +116,15 @@ class TopHeadlinesRepositoryImplTest {
         // Invoke
         val apiResponseFlow = repository.getTopEntertainmentHeadlines(1)
         // Then
-        MatcherAssert.assertThat(apiResponseFlow, CoreMatchers.notNullValue())
+        assertThat(apiResponseFlow, CoreMatchers.notNullValue())
 
         val topHeadlinesEntityDateState = apiResponseFlow.first()
-        MatcherAssert.assertThat(topHeadlinesEntityDateState, CoreMatchers.notNullValue())
-        MatcherAssert.assertThat(topHeadlinesEntityDateState, CoreMatchers.instanceOf(DataState.Error::class.java))
+        assertThat(topHeadlinesEntityDateState, CoreMatchers.notNullValue())
+        assertThat(topHeadlinesEntityDateState, CoreMatchers.instanceOf(DataState.Error::class.java))
 
         val errorMessage = (topHeadlinesEntityDateState as DataState.Error).message
-        MatcherAssert.assertThat(errorMessage, CoreMatchers.notNullValue())
-        MatcherAssert.assertThat(errorMessage, CoreMatchers.equalTo(givenApiErrorEntity))
+        assertThat(errorMessage, CoreMatchers.notNullValue())
+        assertThat(errorMessage, CoreMatchers.equalTo(givenApiErrorEntity))
 
         coVerify(atLeast = 1) { topHeadlinesRemoteDataSource.getTopEntertainmentHeadlines(any()) }
         confirmVerified(topHeadlinesRemoteDataSource)

@@ -2,7 +2,7 @@ package com.vyshas.newsapp.core.data
 
 import com.vyshas.newsapp.core.data.model.ApiResponse
 import com.vyshas.newsapp.core.data.repository.remote.NewsApiService
-import com.vyshas.newsapp.core.MainCoroutinesRule
+import com.vyshas.newsapp.core.domain.MainCoroutinesRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.`is`

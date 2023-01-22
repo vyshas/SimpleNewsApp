@@ -1,6 +1,7 @@
-package com.vyshas.newsapp.features.home.data.mapper
+package com.vyshas.newsapp.features.home.domain.mapper
 
 import com.vyshas.newsapp.core.presentation.mappers.StringUtils
+import com.vyshas.newsapp.features.home.data.mapper.TopHeadlinesEntityMapper
 import com.vyshas.newsapp.features.home.data.model.entertainmentnews.Article
 import com.vyshas.newsapp.features.home.data.model.entertainmentnews.TopEntertainmentNews
 import com.vyshas.newsapp.features.home.domain.TopHeadlinesMockTestUtil
