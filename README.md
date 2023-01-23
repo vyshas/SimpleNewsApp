@@ -1,6 +1,12 @@
 # Simple News App
 App that displays news from newsapi.org.
 
+Create a file in the root of the project (if not already there) called `credentials.properties` and populate with the following.
+```
+NEWS_API_KEY = 
+```
+NEWS_API_KEY from newsapi.org
+
 ## Architecture
 * Built with Modern Android Development practices.
 * Follows [Guide to app architecture](https://developer.android.com/topic/architecture)
