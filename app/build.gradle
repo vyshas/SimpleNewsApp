@@ -3,21 +3,40 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'kotlinx-serialization'
 }
 
+def credentialsPropertiesFile = rootProject.file("credentials.properties")
+def credentialProperties = new Properties()
+credentialProperties.load(new FileInputStream(credentialsPropertiesFile))
+
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.vyshas.newsapp"
         minSdk 28
-        targetSdk 31
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
+        }
+        buildConfigField(
+                "String",
+                "NEWS_API_KEY",
+                credentialProperties['NEWS_API_KEY']
+        )
+    }
+
+    signingConfigs {
+        debug {
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+            storeFile rootProject.file('debug.keystore')
+            storePassword "android"
         }
     }
 
@@ -33,39 +52,48 @@ android {
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11
-        useIR = true
     }
     buildFeatures {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion '1.5.21'
+        kotlinCompilerExtensionVersion "1.3.2"
     }
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    namespace 'com.vyshas.newsapp'
 }
 
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
 
     // Architecture
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
+
+    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha03'
+
+    // Annotation processor
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.navigation:navigation-compose:$nav_version"
 
     // Kotlin Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
@@ -74,25 +102,60 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.squareup.okhttp3:logging-interceptor:4.9.2"
-    implementation "com.squareup.retrofit2:converter-moshi:$moshi_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+    implementation "com.squareup.moshi:moshi:$moshi_version"
+    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
+    implementation "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
+    implementation "com.squareup.moshi:moshi-adapters:$moshi_version"
+    implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.14")
+    implementation("com.michael-bull.kotlin-result:kotlin-result-coroutines:1.1.14")
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
     //compose
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose:1.3.1'
+    def composeBom = platform("androidx.compose:compose-bom:$compose_bom_version")
+    implementation composeBom
 
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.compose.material:material'
+    implementation 'androidx.compose.foundation:foundation'
+    implementation 'androidx.compose.material3:material3-window-size-class'
 
+    implementation "androidx.activity:activity-compose:1.6.1"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
+
+    implementation 'androidx.compose.animation:animation'
+    implementation 'androidx.compose.runtime:runtime'
+
+    implementation "androidx.paging:paging-compose:1.0.0-alpha17"
+
+    implementation "com.google.accompanist:accompanist-appcompat-theme:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
+    implementation("io.coil-kt:coil-compose:$coil_version")
+
+    implementation "androidx.browser:browser:$browser_version"
+
+    //debugging
+    implementation "com.jakewharton.timber:timber:$timber_version"
+
+    //testing
+    androidTestImplementation composeBom
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+    testImplementation "io.mockk:mockk:1.13.2"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp_version"
+    testImplementation 'app.cash.turbine:turbine:0.12.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.§'
+    androidTestImplementation "io.mockk:mockk-android:1.10.6"
 }
