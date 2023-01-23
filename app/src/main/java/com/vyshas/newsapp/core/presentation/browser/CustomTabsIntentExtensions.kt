@@ -39,5 +39,5 @@ fun launchCustomChromeTab(context: Context, uri: String) {
     val customTabsIntent = CustomTabsIntent.Builder()
         .setDefaultColorSchemeParams(customTabBarColor)
         .build()
-    customTabsIntent.launchWithFallback(context,uri,{})
+    customTabsIntent.launchWithFallback(context, uri, {})
 }

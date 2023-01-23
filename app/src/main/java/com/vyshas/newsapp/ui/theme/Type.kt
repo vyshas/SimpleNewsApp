@@ -8,7 +8,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.vyshas.newsapp.R
 
-//Replace with your font locations
+// Replace with your font locations
 val SourceCodePro = FontFamily(
     Font(R.font.sourcecodeproregular),
     Font(R.font.sourcecodepromedium, FontWeight.Medium),

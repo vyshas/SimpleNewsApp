@@ -1,9 +1,9 @@
 package com.vyshas.newsapp.features.home.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.vyshas.newsapp.core.domain.MainCoroutinesRule
 import com.vyshas.newsapp.core.data.ApiUtil.successCall
 import com.vyshas.newsapp.core.data.model.ApiResponse
+import com.vyshas.newsapp.core.domain.MainCoroutinesRule
 import com.vyshas.newsapp.core.domain.entity.DataState
 import com.vyshas.newsapp.core.domain.entity.mapErrorOrException
 import com.vyshas.newsapp.core.domain.exceptions.ExceptionEntity
@@ -21,8 +21,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert.*
-import org.junit.After
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -56,10 +55,6 @@ class TopHeadlinesRepositoryImplTest {
         MockKAnnotations.init(this)
     }
 
-    @After
-    fun tearDown() {
-    }
-
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `test getTopHeadlines() gives list of headlines`() = runTest {
@@ -76,7 +71,6 @@ class TopHeadlinesRepositoryImplTest {
         coEvery { topHeadlinesRemoteDataSource.getTopEntertainmentHeadlines(any()) }.returns(apiCall)
         // When
         coEvery { topHeadlinesEntityMapper.mapToEntity(any()) }.returns(givenTopHeadlinesEntityList)
-
 
         val apiResponseFlow = repository.getTopEntertainmentHeadlines(1)
         // Then
@@ -129,5 +123,4 @@ class TopHeadlinesRepositoryImplTest {
         coVerify(atLeast = 1) { topHeadlinesRemoteDataSource.getTopEntertainmentHeadlines(any()) }
         confirmVerified(topHeadlinesRemoteDataSource)
     }
-
 }

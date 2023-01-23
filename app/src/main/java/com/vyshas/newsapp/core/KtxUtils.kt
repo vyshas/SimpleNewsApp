@@ -3,7 +3,7 @@ package com.vyshas.newsapp.core
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import java.util.*
+import java.util.Calendar
 
 fun EditText.dismissKeyboard() {
     val imm: InputMethodManager? = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?

@@ -7,7 +7,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -24,10 +23,6 @@ class NewApiServiceTest : ApiAbstract<NewsApiService>() {
     @Before
     fun setUp() {
         apiService = createService(NewsApiService::class.java)
-    }
-
-    @After
-    fun tearDown() {
     }
 
     @Throws(IOException::class)

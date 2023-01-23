@@ -7,7 +7,7 @@ import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
 @HiltAndroidApp
-class NewAppApplication : Application() {
+class NewsAppApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -32,5 +32,4 @@ class NewAppApplication : Application() {
 
         AppCompatDelegate.setDefaultNightMode(mode)
     }
-
 }

@@ -10,7 +10,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -33,10 +32,6 @@ class TopHeadlinesEntityMapperTest {
         topHeadlinesEntityMapper = TopHeadlinesEntityMapper(
             stringUtils
         )
-    }
-
-    @After
-    fun tearDown() {
     }
 
     @Test
@@ -78,5 +73,4 @@ class TopHeadlinesEntityMapperTest {
         val result = topHeadlinesEntityMapper.mapToEntity(givenTopEntertainmentNewsResponse)
         MatcherAssert.assertThat(result.size, CoreMatchers.`is`(2))
     }
-
 }

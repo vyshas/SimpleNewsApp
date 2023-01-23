@@ -2,15 +2,43 @@ package com.vyshas.newsapp.features.home.presentation.list
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -107,7 +135,6 @@ fun HomeListScreen(
                 HomeUiState.EmptyContent -> FullScreenLoading()
             }
         }
-
     }
 }
 
@@ -145,7 +172,6 @@ fun ShowErrorMessage(
         }
         onErrorConsumed()
     }
-
 }
 
 @Composable
@@ -214,7 +240,9 @@ fun NewsCardSimple(
 
 @Composable
 fun NewsSourceContainer(
-    modifier: Modifier, sourceText: String, publishedDateText: String
+    modifier: Modifier,
+    sourceText: String,
+    publishedDateText: String
 ) {
     Row {
         SourceLabelText(modifier = modifier, sourceText)
@@ -231,13 +259,16 @@ fun PublishedDateText(publishedDateText: String) {
         append(publishedDateText)
     }
     val inlineContent = mapOf(
-        Pair(timeIconId, InlineTextContent(
-            Placeholder(
-                height = 14.sp, width = 14.sp, placeholderVerticalAlign = PlaceholderVerticalAlign.Center
-            )
-        ) {
-            Icon(painterResource(id = R.drawable.ic_time), "")
-        })
+        Pair(
+            timeIconId,
+            InlineTextContent(
+                Placeholder(
+                    height = 14.sp, width = 14.sp, placeholderVerticalAlign = PlaceholderVerticalAlign.Center
+                )
+            ) {
+                Icon(painterResource(id = R.drawable.ic_time), "")
+            }
+        )
     )
 
     Text(
@@ -251,7 +282,6 @@ fun SourceLabelText(modifier: Modifier, sourceText: String) {
         modifier = modifier, text = sourceText, maxLines = 1, fontWeight = FontWeight.W500, fontSize = 13.sp, textAlign = TextAlign.Start
     )
 }
-
 
 @Composable
 fun CategoriesText(categoriesStringRes: Int, modifier: Modifier) {
@@ -267,7 +297,8 @@ fun CategoriesText(categoriesStringRes: Int, modifier: Modifier) {
 
 @Composable
 fun NewsHeaderImage(
-    headerImageUrl: String?, contentDescription: String?
+    headerImageUrl: String?,
+    contentDescription: String?
 ) {
     AsyncImage(
         placeholder = if (LocalInspectionMode.current) {
@@ -342,7 +373,7 @@ private fun FullScreenLoading() {
 @Preview("Simple News card (dark)", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun SimpleTopHeadlinesPreview() {
-    NewsAppTheme() {
+    NewsAppTheme {
         Surface {
             NewsCardSimple(topHeadlinesEntity = previewTopEntertainmentHeadlinesEntities[0], onNewsItemClick = {})
         }
@@ -353,7 +384,7 @@ fun SimpleTopHeadlinesPreview() {
 @Preview("Simple TopHeadlines List(dark)", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun SimpleTopHeadlinesListPreview() {
-    NewsAppTheme() {
+    NewsAppTheme {
         HomeListContent(
             topHeadlinesList = previewTopEntertainmentHeadlinesEntities,
             onNewsItemClick = {}

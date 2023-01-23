@@ -36,6 +36,45 @@ buildscript {
     }
 }
 
+plugins {
+    id("io.gitlab.arturbosch.detekt").version("1.21.0")
+    //ktlintCheck - checks all SourceSets and project Kotlin script files
+    //ktlintFormat - tries to format according to the code style all SourceSets Kotlin files and project Kotlin
+    id("org.jlleitschuh.gradle.ktlint").version("11.0.0")
+}
+
+subprojects {
+    apply plugin: "io.gitlab.arturbosch.detekt"
+    apply plugin: "org.jlleitschuh.gradle.ktlint"
+
+    afterEvaluate { project ->
+        if (project.hasProperty('android')) {
+            android {
+                packagingOptions {
+                    exclude 'META-INF/DEPENDENCIES'
+                    exclude 'META-INF/LICENSE'
+                    exclude 'META-INF/LICENSE.txt'
+                    exclude 'META-INF/license.txt'
+                    exclude 'META-INF/NOTICE'
+                    exclude 'META-INF/NOTICE.txt'
+                    exclude 'META-INF/notice.txt'
+                    exclude 'META-INF/ASL2.0'
+                    exclude("META-INF/*.kotlin_module")
+                }
+            }
+        }
+    }
+}
+
+detekt {
+    config = files("$projectDir/config/detekt/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+
+    reports {
+        html.enabled = true // observe findings in your browser with structure and code snippets
+    }
+}
+
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

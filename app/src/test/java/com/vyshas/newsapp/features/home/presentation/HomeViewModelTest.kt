@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -56,11 +55,6 @@ class HomeViewModelTest {
             dispatcherProvider = TestCoroutineDispatcherProvider(),
             uiErrorMapper = uiErrorMapper
         )
-
-    }
-
-    @After
-    fun tearDown() {
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -121,7 +115,6 @@ class HomeViewModelTest {
 
         coEvery { getTopEntertainmentNews.invoke() }.returns(givenTopEntertainmentNewsError)
 
-
         viewModel.uiState.test {
             awaitItem()
 
@@ -133,5 +126,4 @@ class HomeViewModelTest {
             cancelAndIgnoreRemainingEvents()
         }
     }
-
 }

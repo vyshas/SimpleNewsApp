@@ -15,7 +15,6 @@ interface NewsApiService {
         @Query("page") page: Int? = null
     ): ApiResponse<TopEntertainmentNews>
 
-
     companion object {
         const val BASE_API_URL = "https://newsapi.org/v2/"
     }
