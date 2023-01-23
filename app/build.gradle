@@ -6,6 +6,10 @@ plugins {
     id 'kotlinx-serialization'
 }
 
+def credentialsPropertiesFile = rootProject.file("credentials.properties")
+def credentialProperties = new Properties()
+credentialProperties.load(new FileInputStream(credentialsPropertiesFile))
+
 android {
     compileSdk 33
 
@@ -19,6 +23,20 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
+        }
+        buildConfigField(
+                "String",
+                "NEWS_API_KEY",
+                credentialProperties['NEWS_API_KEY']
+        )
+    }
+
+    signingConfigs {
+        debug {
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+            storeFile rootProject.file('debug.keystore')
+            storePassword "android"
         }
     }
 
