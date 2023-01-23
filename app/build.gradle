@@ -71,11 +71,11 @@ android {
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinx_serialization_version"
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinx_datetime_version")
 
     implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
 
     // Architecture
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
@@ -102,14 +102,12 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_logging"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
     implementation "com.squareup.moshi:moshi:$moshi_version"
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
     implementation "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
     implementation "com.squareup.moshi:moshi-adapters:$moshi_version"
-    implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.14")
-    implementation("com.michael-bull.kotlin-result:kotlin-result-coroutines:1.1.14")
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
@@ -127,13 +125,13 @@ dependencies {
     implementation 'androidx.compose.foundation:foundation'
     implementation 'androidx.compose.material3:material3-window-size-class'
 
-    implementation "androidx.activity:activity-compose:1.6.1"
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
+    implementation "androidx.activity:activity-compose:$compose_activity_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$compose_viewmodel_version"
 
     implementation 'androidx.compose.animation:animation'
     implementation 'androidx.compose.runtime:runtime'
 
-    implementation "androidx.paging:paging-compose:1.0.0-alpha17"
+    implementation "androidx.paging:paging-compose:$compose_paging_version"
 
     implementation "com.google.accompanist:accompanist-appcompat-theme:$accompanist_version"
     implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
@@ -146,16 +144,14 @@ dependencies {
 
     //testing
     androidTestImplementation composeBom
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "androidx.arch.core:core-testing:$core_testing_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
-    testImplementation "io.mockk:mockk:1.13.2"
+    testImplementation "io.mockk:mockk:$mockk_version"
     testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp_version"
-    testImplementation 'app.cash.turbine:turbine:0.12.1'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.§'
-    androidTestImplementation "io.mockk:mockk-android:1.10.6"
+    testImplementation "app.cash.turbine:turbine:$turbine_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
+    androidTestImplementation "io.mockk:mockk-android:$mockk_android_version"
 }
