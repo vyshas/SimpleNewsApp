@@ -29,3 +29,18 @@ NEWS_API_KEY from newsapi.org
 - [Material Components for Android](https://github.com/material-components/material-components-android) - Modular and customizable Material Design UI components for Android.
 - [MockK](https://mockk.io) - For Mocking and Unit Testing
 - [Turbine](https://github.com/cashapp/turbine) - For Unit Testing flows
+
+## License :oncoming_police_car:
+    Copyright 2023 Vyshakh Amar Shanthi
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
