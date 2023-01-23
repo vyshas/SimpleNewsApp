@@ -2,10 +2,15 @@
 buildscript {
     ext {
         lifecycle_version = "2.5.1"
+        appcompat_version = "1.6.0"
         compose_bom_version = '2022.12.00'
+        compose_activity_version = "1.6.1"
+        compose_viewmodel_version = "2.5.1"
+        compose_paging_version = "1.0.0-alpha17"
         dagger_version = '2.38.1'
         moshi_version = '2.9.0'
         retrofit_version = '2.9.0'
+        okhttp_logging = "4.10.0"
         constraint_layout_version = "2.0.4"
         material3_version = "1.0.1"
         material_version = "1.7.0"
@@ -19,6 +24,16 @@ buildscript {
         coil_version = "2.2.2"
         timber_version = "5.0.1"
         browser_version = '1.4.0'
+        turbine_version = "0.12.1"
+        mockk_version = "1.13.2"
+        mockk_android_version = "1.10.6"
+        core_testing_version = "2.1.0"
+        espresso_core_version = "3.5.1"
+        junit_version = "4.13.2"
+        androidx_junit_version = "1.1.5"
+        kotlinx_datetime_version = "0.4.0"
+        kotlinx_serialization_version = "1.4.1"
+        androidx_core_ktx = "1.9.0"
     }
 
     repositories {
