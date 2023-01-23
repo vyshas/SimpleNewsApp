@@ -12,7 +12,7 @@
         />
     <fragment
         android:id="@+id/exploreFragment"
-        android:name="com.vyshas.newsapp.features.explore.ExploreFragment"
+        android:name="com.vyshas.newsapp.features.sports.SportsFragment"
         android:label="fragment_explore"
-        tools:layout="@layout/fragment_explore" />
+        tools:layout="@layout/fragment_sports" />
 </navigation>
