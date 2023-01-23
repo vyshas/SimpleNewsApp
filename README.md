@@ -1,3 +1,5 @@
+[![Build Status](https://app.bitrise.io/app/73eb58efffb0c429/status.svg?token=b6qaGNgGObRTLv8Rt-UmGw&branch=master)](https://app.bitrise.io/app/73eb58efffb0c429)
+
 # Simple News App
 App that displays news from newsapi.org.
 
