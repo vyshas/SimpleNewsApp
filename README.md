@@ -9,6 +9,8 @@ NEWS_API_KEY =
 ```
 NEWS_API_KEY from newsapi.org
 
+![](sample.gif)
+
 ## Architecture
 * Built with Modern Android Development practices.
 * Follows [Guide to app architecture](https://developer.android.com/topic/architecture)
