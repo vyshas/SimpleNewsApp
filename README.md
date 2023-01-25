@@ -1,6 +1,6 @@
 [![Build Status](https://app.bitrise.io/app/73eb58efffb0c429/status.svg?token=b6qaGNgGObRTLv8Rt-UmGw&branch=master)](https://app.bitrise.io/app/73eb58efffb0c429)![Material Design](https://img.shields.io/static/v1?style=for-the-badge&message=Material+Design&color=757575&logo=Material+Design&logoColor=FFFFFF&label=)![Jetpack Compose](https://img.shields.io/static/v1?style=for-the-badge&message=Jetpack+Compose&color=4285F4&logo=Jetpack+Compose&logoColor=FFFFFF&label=)![Kotlin](https://img.shields.io/static/v1?style=for-the-badge&message=Kotlin&color=7F52FF&logo=Kotlin&logoColor=FFFFFF&label=)
 
-# Simple News App  ![](sample.gif)
+# Simple News App  <img height="250" src="sample.gif" width="250"/>
 App that displays news from newsapi.org.
 
 Create a file in the root of the project (if not already there) called `credentials.properties` and populate with the following.
