@@ -25,7 +25,7 @@ buildscript {
         timber_version = "5.0.1"
         browser_version = '1.4.0'
         turbine_version = "0.12.1"
-        mockk_version = "1.13.2"
+        mockk_version = "1.13.4"
         mockk_android_version = "1.10.6"
         core_testing_version = "2.1.0"
         espresso_core_version = "3.5.1"
