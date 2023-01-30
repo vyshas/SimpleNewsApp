@@ -1,6 +1,10 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "groupName" : "all",
+  "packageRules": [
+    {
+      "groupName": "all"
+    }
+  ]
   "extends": [
     "config:base"
   ]
