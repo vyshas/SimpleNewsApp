@@ -26,7 +26,7 @@ buildscript {
         browser_version = '1.4.0'
         turbine_version = "0.12.1"
         mockk_version = "1.13.2"
-        mockk_android_version = "1.10.6"
+        mockk_android_version = "1.13.4"
         core_testing_version = "2.1.0"
         espresso_core_version = "3.5.1"
         junit_version = "4.13.2"
