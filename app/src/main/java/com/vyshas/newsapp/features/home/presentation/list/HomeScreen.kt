@@ -57,7 +57,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -67,7 +66,6 @@ import com.vyshas.newsapp.features.home.domain.entity.TopEntertainmentHeadlinesE
 import com.vyshas.newsapp.features.home.domain.entity.previewTopEntertainmentHeadlinesEntities
 import com.vyshas.newsapp.ui.theme.NewsAppTheme
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel,
