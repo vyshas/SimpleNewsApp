@@ -61,7 +61,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion "1.4.0"
+        kotlinCompilerExtensionVersion "1.5.15"
     }
     packagingOptions {
         resources {
@@ -78,7 +78,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinx_serialization_version"
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinx_datetime_version")
 
-    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.core:core-ktx:1.16.0'
     implementation "androidx.appcompat:appcompat:$appcompat_version"
 
     // Architecture
@@ -88,7 +88,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
 
-    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha05'
+    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.9.0'
 
     // Annotation processor
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
