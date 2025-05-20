@@ -17,6 +17,6 @@ class TopHeadlinesRemoteDataSource @Inject constructor(
 
     private companion object {
         const val CATEGORY = "entertainment"
-        const val COUNTRY = "in"
+        const val COUNTRY = "us"
     }
 }
